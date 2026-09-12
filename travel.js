@@ -65,6 +65,46 @@ const cityLocations = {
 };
 const map=document.querySelector('.china-map');
 const shortcuts=document.querySelector('.city-shortcuts');
+const travelSection=document.querySelector('.travel-section');
+const educationSection=document.querySelector('[aria-labelledby="education-title"]');
+const isTravelPage=document.body.dataset.page==='travel';
+if(!isTravelPage) educationSection?.insertAdjacentHTML?.('beforebegin',`
+<section class="profile-section" aria-labelledby="music-title">
+ <h2 id="music-title">喜欢的音乐</h2>
+ <p class="document-note">有些歌会反复听很多年。</p>
+ <div class="music-list">
+  <article class="music-entry">
+   <h3>关键词</h3>
+   <p><span class="music-emphasis">Justin Bieber</span>　<span class="music-emphasis">陶喆</span>　<span class="music-emphasis">BIGBANG</span>　<span class="music-emphasis">R&amp;B</span></p>
+  </article>
+  <article class="music-entry">
+   <h3>最近爱听</h3>
+   <p><span class="music-song">搬家</span> · 张震岳　<span class="music-song">Speed Demon</span> · Justin Bieber　<span class="music-song">神探</span> · 丁世光</p>
+  </article>
+  <article class="music-entry">
+   <h3>最近爱唱</h3>
+   <p><span class="music-song">时间如何带走悲伤</span> · 周菲戈　<span class="music-song">Love Song</span> · 方大同　<span class="music-song">苏州河</span> · 薛凯琪　<span class="music-song">STAY</span> · The Kid LAROI / Justin Bieber</p>
+  </article>
+  <article class="music-entry">
+   <h3>口味演变</h3>
+   <p>小学毕业 · <span class="music-emphasis">BIGBANG</span>（If You）</p>
+   <p>初一 · <span class="music-emphasis">薛之谦</span>（认真的雪）、<span class="music-emphasis">许嵩</span>（半城烟沙）</p>
+   <p>初二初三高中 · <span class="music-emphasis">电音</span>（Martin Garrix、Marshmello）</p>
+   <p>大一大二 · <span class="music-emphasis">周杰伦</span>（可爱女人）</p>
+   <p>大三大四 · <span class="music-emphasis">Justin Bieber</span>（Holy）、<span class="music-emphasis">陶喆</span>（流沙）</p>
+  </article>
+  <article class="music-entry">
+   <h3>年度最爱</h3>
+   <p>2026 · <span class="music-song">Rewrite the Stars</span> · Zac Efron / Zendaya</p>
+   <p>2025 · <span class="music-song">Holy</span> · Justin Bieber</p>
+   <p>2024 · <span class="music-song">Drown</span> · Martin Garrix / Clinton Kane</p>
+   <p>2023 · <span class="music-song">Still Life</span> · BIGBANG</p>
+   <p>2022 · <span class="music-song">Cold in LA</span> · Why Don&#39;t We</p>
+  </article>
+ </div>
+</section>`);
+if(travelSection){travelSection.querySelector?.('#travel-title')?.replaceChildren('走过的地方');const travelNote=travelSection.querySelector?.('.document-note');if(travelNote)travelNote.textContent='有些地方只是短暂停留，有些地方留下了一段生活。';}
+if(isTravelPage){document.querySelectorAll('.about-intro,.profile-section:not(.travel-section)').forEach(section=>section.remove());}else if(travelSection){travelSection.hidden=true;}
 // 按住 Ctrl 在地图上滚动时，以鼠标位置为中心缩放 SVG 视口。
 if (map.viewBox && map.getBoundingClientRect) {
  const initialViewBox = map.viewBox.baseVal;
@@ -147,11 +187,27 @@ for(const entry of cityEntries) {
  const {key,x,y}=entry;
  const {dx,dy,anchor}=labelPlacements[key];
  const name=albums[key].name;
- const pin=svgElement('g',{class:'city-pin',role:'button',tabindex:'0','data-city':key,'aria-label':`打开${name}相册`});
- pin.append(svgElement('line',{x1:x,y1:y,x2:x+dx,y2:y+dy-4,stroke:'#85a6bd','stroke-width':'.7','pointer-events':'none'}));
- pin.append(svgElement('circle',{cx:x,cy:y,r:4.5,class:'pin-dot'}));
+ const pin=svgElement('g',{class:`city-pin${key==='moscow'?' moscow-pin':''}`,role:'button',tabindex:'0','data-city':key,'aria-label':`打开${name}相册`});
+ if(key!=='moscow') {
+  pin.append(svgElement('line',{x1:x,y1:y,x2:x+dx,y2:y+dy-4,stroke:'#85a6bd','stroke-width':'.7','pointer-events':'none'}));
+  if(key==='beijing') {
+   const points=Array.from({length:10},(_,index)=>{
+    const angle=-Math.PI/2+index*Math.PI/5;
+    const radius=index%2===0?8:3.4;
+    return `${x+Math.cos(angle)*radius},${y+Math.sin(angle)*radius}`;
+   }).join(' ');
+   pin.append(svgElement('polygon',{points,class:'capital-star'}));
+  } else pin.append(svgElement('circle',{cx:x,cy:y,r:4.5,class:'pin-dot'}));
+ }
  const label=svgElement('text',{x:x+dx,y:y+dy,'text-anchor':anchor});label.textContent=name;pin.append(label);map.append(pin);
- const button=document.createElement('button');button.type='button';button.dataset.city=key;button.textContent=name;shortcuts.append(button);
+}
+const photoCount=key=>albums[key].photos.length+(albums[key].sections||[]).reduce((count,section)=>count+section.photos.length,0);
+const shortcutEntries=[...cityEntries].sort((a,b)=>{
+ const priority={beijing:2,ganzhou:1};
+ return (priority[b.key]||0)-(priority[a.key]||0)||photoCount(b.key)-photoCount(a.key)||albums[a.key].name.localeCompare(albums[b.key].name,'zh-CN');
+});
+for(const {key} of shortcutEntries) {
+ const button=document.createElement('button');button.type='button';button.dataset.city=key;button.textContent=albums[key].name;shortcuts.append(button);
 }
 const viewer = document.querySelector('#photo-viewer');
 let activeCity, activeCityKey, activeIndex = 0, activePhotos = [];

@@ -28,6 +28,16 @@ h1 { margin: 0 0 20px; font-size: clamp(26px, 4vw, 34px); font-weight: 500; line
 .note { border-top: 1px solid #e3edf3; padding-block: 26px 48px; }
 h2 { font-size: 18px; font-weight: 500; margin: 0 0 10px; }
 .note p { color: var(--muted); margin: 0; }
+.recent { border-top: 1px solid #e3edf3; padding-block: 28px; }
+.recent p { margin: 4px 0; }
+.recent .recent-update { margin-top: 16px; color: var(--muted); font-size: 14px; }
+.home-links { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.home-links a { position: relative; display: block; min-height: 126px; padding: 18px 40px 18px 18px; border: 1px solid #e3edf3; border-radius: 5px; color: var(--text); transition: background .18s ease, border-color .18s ease; }
+.home-links a:hover { background: var(--sky-light); border-color: #cbe0ed; }
+.home-links strong, .home-links span { display: block; }
+.home-links strong { color: var(--link); font-weight: 500; }
+.home-links span { margin-top: 8px; color: var(--muted); font-size: 14px; line-height: 1.6; }
+.home-links b { position: absolute; right: 17px; bottom: 16px; color: var(--link); font-weight: 400; }
 footer { padding-block: 24px; border-top: 1px solid #e3edf3; color: var(--muted); font-size: 14px; }
 .about-page { padding-block: 54px 40px; }
 .about-intro { max-width: 740px; padding-bottom: 28px; }
@@ -47,6 +57,10 @@ footer { padding-block: 24px; border-top: 1px solid #e3edf3; color: var(--muted)
 .pin-dot { fill: #2477b0; stroke: white; stroke-width: 2; }
 .city-pin text { fill: #155e8e; font-size: 13px; font-weight: 600; paint-order: stroke; stroke: #f8fcff; stroke-width: 3px; }
 .city-pin:hover .pin-dot, .city-pin:focus .pin-dot { fill: #123c65; r: 7; }
+.capital-star { fill: #d33f38; stroke: #fff; stroke-width: 1.2; stroke-linejoin: round; }
+.city-pin:hover .capital-star, .city-pin:focus .capital-star { fill: #a72522; }
+.moscow-pin text { cursor: pointer; }
+.moscow-pin:hover text, .moscow-pin:focus text { fill: #123c65; text-decoration: underline; }
 .city-shortcuts { display: flex; gap: 12px; flex-wrap: wrap; padding-top: 20px; }
 .city-shortcuts button, dialog button { font: inherit; color: var(--link); background: var(--sky-light); border: 1px solid #cbe0ed; padding: 6px 16px; border-radius: 5px; cursor: pointer; }
 button:focus-visible { outline: 2px solid var(--link); outline-offset: 3px; }
@@ -78,6 +92,13 @@ h3 { margin: 0 0 6px; font-size: 16px; font-weight: 600; }
 .honors { list-style: none; margin: 0; padding: 0; }
 .honors li { display: grid; grid-template-columns: 180px 1fr; gap: 24px; padding-block: 10px; }
 .document-note { color: var(--muted); font-size: 14px; }
+.music-list { margin-top: 18px; border-top: 1px solid #e3edf3; }
+.music-entry { padding: 16px 10px; border-bottom: 1px solid #e3edf3; transition: background .18s ease; }
+.music-entry:hover { background: var(--sky-light); }
+.music-entry h3 { color: var(--muted); font-size: 14px; font-weight: 400; margin-bottom: 5px; }
+.music-entry p { margin: 3px 0; }
+.music-song { color: var(--link); }
+.music-emphasis { color: var(--link); font-weight: 600; }
 .grade-group { margin-block: 28px; }
 .grade-table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
 .grade-table caption { text-align: left; color: var(--link); font-weight: 600; padding-bottom: 10px; }
@@ -109,4 +130,5 @@ h3 { margin: 0 0 6px; font-size: 16px; font-weight: 600; }
   .desktop-break { display: none; }
   .about-page { padding-top: 36px; }
   .record, .honors li { grid-template-columns: 1fr; gap: 4px; }
+  .home-links { grid-template-columns: 1fr; }
 }
