@@ -39,7 +39,8 @@ footer { padding-block: 24px; border-top: 1px solid #e3edf3; color: var(--muted)
 .record p.school-scores { padding-inline-start: 0; margin-block: 10px; }
 .record p.school-stage { margin-bottom: 10px; }
 .map-scroll { overflow-x: auto; background: #f8fcff; border-radius: 4px; }
-.china-map { display: block; width: 100%; min-width: 650px; max-width: 850px; margin: auto; }
+.china-map { display: block; width: 100%; min-width: 650px; max-width: 850px; margin: auto; cursor: zoom-in; }
+.china-map.is-zoomed { cursor: zoom-out; }
 .province { fill: #eef7fc; stroke: #91aabc; stroke-width: .8; stroke-dasharray: 3 3; fill-rule: evenodd; }
 .province-name { fill: #647d8c; font-size: 11px; text-anchor: middle; pointer-events: none; }
 .city-pin { cursor: pointer; }

@@ -59,6 +59,36 @@ const cityLocations = {
 };
 const map=document.querySelector('.china-map');
 const shortcuts=document.querySelector('.city-shortcuts');
+// 按住 Ctrl 在地图上滚动时，以鼠标位置为中心缩放 SVG 视口。
+if (map.viewBox && map.getBoundingClientRect) {
+ const initialViewBox = map.viewBox.baseVal;
+ const mapBounds = {
+  x: initialViewBox.x,
+  y: initialViewBox.y,
+  width: initialViewBox.width,
+  height: initialViewBox.height
+ };
+ const minZoom = 1;
+ const maxZoom = 5;
+ map.addEventListener('wheel', event => {
+  if (!event.ctrlKey) return;
+  event.preventDefault();
+  const rect = map.getBoundingClientRect();
+  if (!rect.width || !rect.height) return;
+  const viewBox = map.viewBox.baseVal;
+  const zoom = mapBounds.width / viewBox.width;
+  const nextZoom = Math.min(maxZoom, Math.max(minZoom, zoom * (event.deltaY < 0 ? 1.18 : 1 / 1.18)));
+  if (nextZoom === zoom) return;
+  const pointX = viewBox.x + ((event.clientX - rect.left) / rect.width) * viewBox.width;
+  const pointY = viewBox.y + ((event.clientY - rect.top) / rect.height) * viewBox.height;
+  const nextWidth = mapBounds.width / nextZoom;
+  const nextHeight = mapBounds.height / nextZoom;
+  const nextX = Math.min(mapBounds.x + mapBounds.width - nextWidth, Math.max(mapBounds.x, pointX - ((pointX - viewBox.x) / viewBox.width) * nextWidth));
+  const nextY = Math.min(mapBounds.y + mapBounds.height - nextHeight, Math.max(mapBounds.y, pointY - ((pointY - viewBox.y) / viewBox.height) * nextHeight));
+  map.setAttribute('viewBox', `${nextX} ${nextY} ${nextWidth} ${nextHeight}`);
+  map.classList.toggle('is-zoomed', nextZoom > minZoom);
+ }, {passive:false});
+}
 map.querySelectorAll('.city-pin').forEach(pin=>pin.remove());
 shortcuts.replaceChildren();
 const svgNS='http://www.w3.org/2000/svg';
