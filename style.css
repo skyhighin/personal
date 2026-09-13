@@ -1,4 +1,4 @@
-/* CSS 决定网页的颜色、间距和布局。 */
+/* 基础与全站布局 */
 :root {
   --sky: #9dd7f5;
   --sky-light: #eff8fe;
@@ -14,10 +14,11 @@ a { color: var(--link); text-decoration: none; }
 a:focus-visible { outline: 2px solid var(--link); outline-offset: 6px; }
 .site-name { font-size: 21px; font-weight: 600; letter-spacing: .08em; color: var(--text); }
 nav { display: flex; gap: 28px; flex-wrap: wrap; }
-nav a { color: var(--muted); border-bottom: 3px solid transparent; }
+nav a { color: var(--muted); border-bottom: 3px solid transparent; cursor: pointer; }
 nav a[aria-current="page"] { color: var(--link); border-bottom-color: var(--sky); }
 nav a:hover { color: var(--link); }
 nav span { color: var(--muted); cursor: default; }
+/* 首页 */
 .intro { display: grid; grid-template-columns: 1fr 190px; gap: 58px; align-items: center; padding-block: 86px 76px; }
 .portrait { display: grid; place-items: center; width: 190px; height: 225px; background: var(--sky-light); border-radius: 4px; color: var(--link); font-family: "SimSun", serif; font-size: 36px; letter-spacing: .15em; }
 .eyebrow { color: var(--link); margin: 0 0 10px; font-size: 14px; letter-spacing: .16em; }
@@ -39,6 +40,7 @@ h2 { font-size: 18px; font-weight: 500; margin: 0 0 10px; }
 .home-links span { margin-top: 8px; color: var(--muted); font-size: 14px; line-height: 1.6; }
 .home-links b { position: absolute; right: 17px; bottom: 16px; color: var(--link); font-weight: 400; }
 footer { padding-block: 24px; border-top: 1px solid #e3edf3; color: var(--muted); font-size: 14px; }
+/* 个人资料页面 */
 .about-page { padding-block: 54px 40px; }
 .about-intro { max-width: 740px; padding-bottom: 28px; }
 .bio { color: var(--muted); margin-top: 20px; }
@@ -48,27 +50,30 @@ footer { padding-block: 24px; border-top: 1px solid #e3edf3; color: var(--muted)
 .record p { margin: 0; }
 .record p.school-scores { padding-inline-start: 0; margin-block: 10px; }
 .record p.school-stage { margin-bottom: 10px; }
+/* 旅行地图与城市标记 */
 .map-scroll { overflow-x: auto; background: #f8fcff; border-radius: 4px; }
-.china-map { display: block; width: 100%; min-width: 650px; max-width: 850px; margin: auto; cursor: zoom-in; }
-.china-map.is-zoomed { cursor: zoom-out; }
+.china-map { display: block; width: 100%; min-width: 650px; max-width: 850px; margin: auto; cursor: default; }
 .province { fill: #eef7fc; stroke: #91aabc; stroke-width: .8; stroke-dasharray: 3 3; fill-rule: evenodd; }
 .province-name { fill: #647d8c; font-size: 11px; text-anchor: middle; pointer-events: none; }
 .city-pin { cursor: pointer; }
+.pin-dot, .capital-star, .city-pin text { transition: fill .15s ease, font-size .15s ease, font-weight .15s ease; }
 .pin-dot { fill: #2477b0; stroke: white; stroke-width: 2; }
-.city-pin text { fill: #155e8e; font-size: 13px; font-weight: 600; paint-order: stroke; stroke: #f8fcff; stroke-width: 3px; }
+.city-pin text { fill: #155e8e; font-size: 13px; font-weight: 600; paint-order: stroke; stroke: #f8fcff; stroke-width: 3px; cursor: pointer; }
 .city-pin:hover .pin-dot, .city-pin:focus .pin-dot { fill: #123c65; r: 7; }
+.city-pin:hover text, .city-pin:focus text { fill: #123c65; font-size: 16px; font-weight: 700; }
 .capital-star { fill: #d33f38; stroke: #fff; stroke-width: 1.2; stroke-linejoin: round; }
 .city-pin:hover .capital-star, .city-pin:focus .capital-star { fill: #a72522; }
-.moscow-pin text { cursor: pointer; }
 .moscow-pin:hover text, .moscow-pin:focus text { fill: #123c65; text-decoration: underline; }
 .city-shortcuts { display: flex; gap: 12px; flex-wrap: wrap; padding-top: 20px; }
-.city-shortcuts button, dialog button { font: inherit; color: var(--link); background: var(--sky-light); border: 1px solid #cbe0ed; padding: 6px 16px; border-radius: 5px; cursor: pointer; }
+a[href], button:not(:disabled), [role="button"] { cursor: pointer; }
+.city-shortcuts button, dialog button { font: inherit; color: var(--link); background: var(--sky-light); border: 1px solid #cbe0ed; padding: 6px 16px; border-radius: 5px; }
 button:focus-visible { outline: 2px solid var(--link); outline-offset: 3px; }
 .map-credit { font-size: 12px; color: var(--muted); }
+/* 相册弹窗与图片浏览 */
 dialog { width: min(900px, calc(100% - 32px)); max-height: 85vh; padding: 28px; border: 1px solid #dceaf2; border-radius: 12px; color: var(--text); background: white; box-shadow: 0 20px 80px #18384c40; }
 dialog::backdrop { background: #233e5359; backdrop-filter: blur(6px); }
 .album-open { overflow: hidden; }
-.album-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
+.album-toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
 .album-toolbar h2 { margin: 0; font-size: 24px; }
 #album-empty { padding: 60px 12px; text-align: center; color: var(--muted); }
 .album-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(150px,1fr)); gap: 12px; }
@@ -81,17 +86,18 @@ dialog::backdrop { background: #233e5359; backdrop-filter: blur(6px); }
 .album-city-section { scroll-margin-top: 16px; padding: 22px 0; border-top: 1px solid #e3edf3; }
 .album-city-section:first-child { padding-top: 0; border-top: 0; }
 .album-city-section h3 { margin-bottom: 14px; font-size: 18px; }
-.album-toolbar { flex-wrap: wrap; }
 .album-grid button { padding: 0; overflow: hidden; }
 .album-grid img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; }
 #full-photo { display: block; max-width: 100%; max-height: 60vh; margin: auto; object-fit: contain; }
 .photo-controls { display: flex; justify-content: center; gap: 20px; }
 dialog button:disabled { opacity: .4; cursor: default; }
+/* 个人资料补充 */
 .record-date, .honor-date { color: var(--muted); font-size: 14px; }
 h3 { margin: 0 0 6px; font-size: 16px; font-weight: 600; }
 .honors { list-style: none; margin: 0; padding: 0; }
 .honors li { display: grid; grid-template-columns: 180px 1fr; gap: 24px; padding-block: 10px; }
 .document-note { color: var(--muted); font-size: 14px; }
+/* 音乐内容 */
 .music-list { margin-top: 18px; border-top: 1px solid #e3edf3; }
 .music-entry { padding: 16px 10px; border-bottom: 1px solid #e3edf3; transition: background .18s ease; }
 .music-entry:hover { background: var(--sky-light); }
@@ -99,6 +105,7 @@ h3 { margin: 0 0 6px; font-size: 16px; font-weight: 600; }
 .music-entry p { margin: 3px 0; }
 .music-song { color: var(--link); font-weight: 600; }
 .music-emphasis { color: var(--link); font-weight: 600; }
+/* 学习记录与表格 */
 .grade-group { margin-block: 28px; }
 .grade-table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
 .grade-table caption { text-align: left; color: var(--link); font-weight: 600; padding-bottom: 10px; }
@@ -121,6 +128,7 @@ h3 { margin: 0 0 6px; font-size: 16px; font-weight: 600; }
 .thesis-details div { display: grid; grid-template-columns: 110px 1fr; gap: 16px; padding-block: 8px; }
 .thesis-details dt { color: var(--muted); }
 .thesis-details dd { margin: 0; }
+/* 小屏幕适配 */
 @media (max-width: 680px) {
   .site-header, main, footer { width: calc(100% - 40px); }
   .site-header { align-items: flex-start; flex-direction: column; gap: 16px; }
