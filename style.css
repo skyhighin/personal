@@ -97,7 +97,7 @@ h3 { margin: 0 0 6px; font-size: 16px; font-weight: 600; }
 .music-entry:hover { background: var(--sky-light); }
 .music-entry h3 { color: var(--muted); font-size: 14px; font-weight: 400; margin-bottom: 5px; }
 .music-entry p { margin: 3px 0; }
-.music-song { color: var(--link); }
+.music-song { color: var(--link); font-weight: 600; }
 .music-emphasis { color: var(--link); font-weight: 600; }
 .grade-group { margin-block: 28px; }
 .grade-table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }

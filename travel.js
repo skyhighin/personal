@@ -193,7 +193,7 @@ for(const entry of cityEntries) {
   if(key==='beijing') {
    const points=Array.from({length:10},(_,index)=>{
     const angle=-Math.PI/2+index*Math.PI/5;
-    const radius=index%2===0?8:3.4;
+    const radius=index%2===0?10:4.25;
     return `${x+Math.cos(angle)*radius},${y+Math.sin(angle)*radius}`;
    }).join(' ');
    pin.append(svgElement('polygon',{points,class:'capital-star'}));
